@@ -61,7 +61,7 @@ The bit vector must be a `numpy.ndarray` of size `(n,)` or `(m, n)`.
 array([5.81642745, 4.41380893, 11.3391062, 4.34253921, 6.07799747])
 ```
 
-### Solving
+### Solving (Brute Force)
 
 The submodule `solving` contains several methods to obtain the minimizing bit vector or energy value of a given QUBO instance, both exact and approximative.
 
@@ -77,7 +77,7 @@ The submodule `solving` contains several methods to obtain the minimizing bit ve
 The method `brute_force` is implemented efficiently in C and parallelized with OpenMP.
 Still, for instances with more than 30 variables take a long time to solve this way.
 
-### Solving on the Dynex Platform
+### Solving (Dynex Platform)
 
 The Dynex SDK can solve Qubo problems, which are created by Qubolite, in a seamless way:
 
