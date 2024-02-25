@@ -67,15 +67,39 @@ The submodule `solving` contains several methods to obtain the minimizing bit ve
 
 ```
 >>> from qubolite.solving import brute_force
->>> x_min, value = brute_force(Q, return_value=True)
+>>> x_min, value = brute_force(Q2)
 >>> x_min
-array([1., 1., 1., 0., 1., 0., 0., 0.])
+[0. 0. 0. 1. 1. 1. 1. 0. 0. 0. 1. 0.]
 >>> value
--3.394893116198653
+-5.943917903848271
 ```
 
 The method `brute_force` is implemented efficiently in C and parallelized with OpenMP.
 Still, for instances with more than 30 variables take a long time to solve this way.
+
+### Solving on the Dynex Platform
+
+The Dynex SDK can solve Qubo problems, which are created by Qubolite, in a seamless way:
+
+```
+>>> import dynex
+>>> sampleset = dynex.sample_qubo(Q2.m, mainnet=True, num_reads=1024, annealing_time=200)
+[DYNEX] PRECISION SET TO 1e-05
+[DYNEX] SAMPLER INITIALISED
+[DYNEX|TESTNET] *** WAITING FOR READS ***
+╭────────────┬─────────────┬───────────┬───────────────────────────┬─────────┬─────────┬────────────────╮
+│   DYNEXJOB │   BLOCK FEE │ ELAPSED   │ WORKERS READ              │ CHIPS   │ STEPS   │ GROUND STATE   │
+├────────────┼─────────────┼───────────┼───────────────────────────┼─────────┼─────────┼────────────────┤
+│         -1 │           0 │           │ *** WAITING FOR READS *** │         │         │                │
+╰────────────┴─────────────┴───────────┴───────────────────────────┴─────────┴─────────┴────────────────╯
+
+[DYNEX] FINISHED READ AFTER 0.00 SECONDS
+[DYNEX] SAMPLESET READY
+>>> print(sampleset)
+   0  1  2  3  4  5  6  7  8  9 10 11    energy num_oc.
+0  0  0  0  1  1  1  1  0  0  0  1  0 -5.943918       1
+['BINARY', 1 rows, 1 samples, 12 variables]
+```
 
 ## Documentation
 
